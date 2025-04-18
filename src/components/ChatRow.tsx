@@ -13,7 +13,7 @@ const ChatRow = ({chat, onDelete}:{
     const {closeMobileNav,} = use(NavigationContext)
 
    const handleClick = ()=>{
-        router.push(`/dashboard/chats/${chat._id}`)
+        router.push(`/dashboard/chat/${chat._id}`)
         closeMobileNav()
     }
   return (
@@ -32,6 +32,7 @@ const ChatRow = ({chat, onDelete}:{
                 ) : (
                   <span className="text-gray-400">New conversation</span>
                 )} */}
+              {chat.title}
               </p>
               <Button
                 variant="ghost"
