@@ -1,9 +1,14 @@
 import { ChatOllama } from '@langchain/ollama'
 import { ToolNode } from '@langchain/langgraph/prebuilt'
 import wxFlows from '@wxflows/sdk/langchain'
+import { END, START, StateGraph, MessagesAnnotation } from '@langchain/langgraph'
+import SYSTEM_MESSAGE from '@/constants/systemMessage'
+import { SystemMessage } from '@langchain/core/messages'
+import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts'
 
 const toolClient = new wxFlows({
-
+    apikey: process.env.WATSON_API_KEY || "",
+    endpoint: process.env.WXFLOWS_END_POINT || ""
 })
 
 const tools = await toolClient.lcTools;
@@ -31,4 +36,22 @@ const initializeMode = () => {
     }).bindTools([tools])
 
     return model
+}
+
+const createWorkflow = async () => {
+    const model = initializeMode()
+    const stateGraph = new StateGraph(MessagesAnnotation);
+    stateGraph.addNode('agent', async (state) => {
+
+        const systemContent = SYSTEM_MESSAGE;
+
+        const prompTemplate = ChatPromptTemplate.fromMessages([
+            new SystemMessage(systemContent, {
+                cache_control: {type: "ephemeral"},
+            }),
+            new MessagesPlaceholder("messages")
+        ])
+        
+    })
+
 }
