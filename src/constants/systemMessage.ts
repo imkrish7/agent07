@@ -12,6 +12,7 @@ When using tools:
 - never create false information
 - If prompt is too long, break it down into smaller parts and use the tools to answer each part
 - when you do any tool call or any computation before you return the result, structure it between markers like this:
+- When appropriate, call a tool using a tool_call
   ---START---
   query
   ---END---
